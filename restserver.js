@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const host = 'localhost';
 const port = 8080;
-const apiEndPoint = '/api/';
+const rootEndPoint = '/api';
 const documentRoot = './static';
 
 const todos = [
@@ -22,7 +22,7 @@ const restAPI = (req, res, resource) => {
             return;
         }
         else {
-            const re = /^\/todos\/(.+)$/;
+            const re = /^\/todos\/(\d+)$/;
             const found = resource.match(re);
             if (found) {
                 const id = parseInt(found[1]);
@@ -70,7 +70,7 @@ const restAPI = (req, res, resource) => {
         return;
     }
     else if (req.method === 'PUT') {
-        const re = /^\/todos\/(.+)$/;
+        const re = /^\/todos\/(\d+)$/;
         const found = resource.match(re);
         if (found) {
 
@@ -100,7 +100,7 @@ const restAPI = (req, res, resource) => {
         return;
     }
     else if (req.method === 'DELETE') {
-        const re = /^\/todos\/(.+)$/;
+        const re = /^\/todos\/(\d+)$/;
         const found = resource.match(re);
         if (found) {
 
@@ -163,8 +163,8 @@ const server = http.createServer((req, res) => {
     console.log(req.method);
     console.log(req.url);
 
-    if (req.url.startsWith(apiEndPoint)) {
-        const resource = req.url.replace(apiEndPoint, '/');
+    if (req.url.startsWith(rootEndPoint)) {
+        const resource = req.url.replace(rootEndPoint, '');
         restAPI(req, res, resource);
         return;
     }

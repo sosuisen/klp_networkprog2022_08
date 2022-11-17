@@ -8,25 +8,25 @@ const http = require('http');
 
 const host = 'localhost';
 const port = 8080;
-const apiEndPoint = '/api/';
+const rootEndPoint = '/api';
 
 // コマンドライン引数の取得
-let method, resource, userData;
+let method, resource, sendData;
 // 配列の「分割代入」を利用します
 // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-[, , method, resource, userData] = process.argv;
+[, , method, resource, sendData] = process.argv;
 
 const req = http.request(
     {
         host,
         port,
-        path: apiEndPoint + resource,
+        path: rootEndPoint + '/' + resource,
         method,
     },
     res => {
         let responseData = '';
         console.log(`statusCode: ${res.statusCode}`);
-        if (res.statusCode.toString().match(/20\d/)) {
+        if (/20\d/.test(res.statusCode)) {            
             res.on('data', chunk => responseData += chunk);
             res.on('end', () => {
                 const obj = JSON.parse(responseData)
@@ -35,6 +35,6 @@ const req = http.request(
         }
     });
 
-if (method === 'POST' || method === 'PUT') req.write(userData);
+if (method === 'POST' || method === 'PUT') req.write(sendData);
 
 req.end();

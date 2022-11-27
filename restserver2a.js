@@ -23,8 +23,8 @@ const restAPI = (req, res, resource) => {
         }
         else {
             const arr = resource.split('/');
-            if(arr.length === 3 && arr[2] === 'todos' && /^\d+$/.test(arr[3])) {
-                const id = parseInt(arr[3]);
+            if(arr.length === 3 && arr[1] === 'todos' && /^\d+$/.test(arr[2])) {
+                const id = parseInt(arr[2]);
                 const todo = todos.find(todo => todo.id === id);
                 if (todo) {
                     res.statusCode = 200;
@@ -33,8 +33,8 @@ const restAPI = (req, res, resource) => {
                     return;
                 }
             }
-            else if(arr.length === 4 && arr[2] === 'todos' && /^\d+$/.test(arr[3]) && arr[4] === 'title') {
-                const id = parseInt(found2[3]);
+            else if(arr.length === 4 && arr[1] === 'todos' && /^\d+$/.test(arr[2]) && arr[3] === 'title') {
+                const id = parseInt(arr[2]);
                 const todo = todos.find(todo => todo.id === id);
                 if (todo) {
                     res.statusCode = 200;
